@@ -13,6 +13,7 @@ namespace FileUpload.MVC.Data
         {
 
         }
-        public DbSet<FileModel> Files { get; set; }
+        public DbSet<FileOnDatabaseModel> FilesOnDatabase { get; set; }
+        public DbSet<FileOnFileSystemModel> FilesOnFileSystem { get; set; }
     }
 }

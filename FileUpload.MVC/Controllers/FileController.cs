@@ -28,7 +28,7 @@ namespace FileUpload.MVC.Controllers
         [HttpPost]
         public async Task<IActionResult> UploadToFileSystem(List<IFormFile> files, string description)
         {
-            foreach(var file in files)
+            foreach (var file in files)
             {
                 var basePath = Path.Combine(Directory.GetCurrentDirectory() + "\\Files\\");
                 bool basePathExists = System.IO.Directory.Exists(basePath);
@@ -55,12 +55,11 @@ namespace FileUpload.MVC.Controllers
                     context.SaveChanges();
                 }
             }
-            var fileuploadViewModel = await LoadAllFiles();
             TempData["Message"] = "File successfully uploaded to File System.";
-            return RedirectToAction("Index", fileuploadViewModel);
+            return RedirectToAction("Index");
         }
         [HttpPost]
-        public async Task<IActionResult> UploadToDatabase(List<IFormFile> files,string description)
+        public async Task<IActionResult> UploadToDatabase(List<IFormFile> files, string description)
         {
             foreach (var file in files)
             {
@@ -82,9 +81,8 @@ namespace FileUpload.MVC.Controllers
                 context.FilesOnDatabase.Add(fileModel);
                 context.SaveChanges();
             }
-            var fileuploadViewModel = await LoadAllFiles();
             TempData["Message"] = "File successfully uploaded to Database";
-            return RedirectToAction("Index", fileuploadViewModel);
+            return RedirectToAction("Index");
         }
 
         private async Task<FileUploadViewModel> LoadAllFiles()
@@ -100,7 +98,7 @@ namespace FileUpload.MVC.Controllers
 
             var file = await context.FilesOnDatabase.Where(x => x.Id == id).FirstOrDefaultAsync();
             if (file == null) return null;
-            return File(file.Data, file.FileType, file.Name+file.Extension);
+            return File(file.Data, file.FileType, file.Name + file.Extension);
         }
         public async Task<IActionResult> DownloadFileFromFileSystem(int id)
         {
@@ -126,9 +124,8 @@ namespace FileUpload.MVC.Controllers
             }
             context.FilesOnFileSystem.Remove(file);
             context.SaveChanges();
-            var fileuploadViewModel = await LoadAllFiles();
             TempData["Message"] = $"Removed {file.Name + file.Extension} successfully from File System.";
-            return RedirectToAction("Index", fileuploadViewModel);
+            return RedirectToAction("Index");
         }
         public async Task<IActionResult> DeleteFileFromDatabase(int id)
         {
@@ -136,9 +133,8 @@ namespace FileUpload.MVC.Controllers
             var file = await context.FilesOnDatabase.Where(x => x.Id == id).FirstOrDefaultAsync();
             context.FilesOnDatabase.Remove(file);
             context.SaveChanges();
-            var fileuploadViewModel = await LoadAllFiles();
             TempData["Message"] = $"Removed {file.Name + file.Extension} successfully from Database.";
-            return RedirectToAction("Index", fileuploadViewModel);
+            return RedirectToAction("Index");
         }
     }
 }

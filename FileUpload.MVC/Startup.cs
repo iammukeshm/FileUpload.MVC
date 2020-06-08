@@ -27,8 +27,8 @@ namespace FileUpload.MVC
         {
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection"),
-                    b => b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
+                Configuration.GetConnectionString("DefaultConnection"),
+                b => b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
             services.AddControllersWithViews();
         }
 
